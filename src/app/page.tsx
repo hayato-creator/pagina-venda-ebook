@@ -4,6 +4,13 @@ import { Check, Zap, Shield, ArrowRight, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export default function Home() {
+  // URL do checkout - redirecionamento para Hotmart
+  const CHECKOUT_URL = "https://hotm.art/ocodigodamenteinabalvel"
+  
+  const redirectToCheckout = () => {
+    window.location.href = CHECKOUT_URL
+  }
+
   const scrollToOffer = () => {
     document.getElementById('oferta')?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -31,7 +38,7 @@ export default function Home() {
           
           <div className="pt-8">
             <Button 
-              onClick={scrollToOffer}
+              onClick={redirectToCheckout}
               size="lg" 
               className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-12 py-7 text-lg font-bold rounded-xl shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 hover:scale-105"
             >
@@ -291,6 +298,7 @@ export default function Home() {
             </div>
 
             <Button 
+              onClick={redirectToCheckout}
               size="lg" 
               className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-16 py-8 text-xl font-bold rounded-xl shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 hover:scale-105 w-full md:w-auto"
             >
@@ -315,7 +323,7 @@ export default function Home() {
               Baixe agora o <span className="text-purple-400">Código da Mente Inabalável</span>
             </h3>
             <Button 
-              onClick={scrollToOffer}
+              onClick={redirectToCheckout}
               size="lg" 
               className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-12 py-7 text-lg font-bold rounded-xl shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 hover:scale-105"
             >
