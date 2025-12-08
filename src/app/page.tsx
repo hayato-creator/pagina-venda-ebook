@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Check, Zap, Shield, ArrowRight, Star, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 export default function Home() {
-  // Estado do Quiz
+  // Estado do Quiz com localStorage
   const [showQuiz, setShowQuiz] = useState(true)
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState({
@@ -20,6 +20,25 @@ export default function Home() {
   // URL do checkout - redirecionamento para Hotmart
   const CHECKOUT_URL = "https://hotm.io/ocodigodamente1nabalavel"
   
+  // Carregar respostas salvas do localStorage ao montar o componente
+  useEffect(() => {
+    const savedAnswers = localStorage.getItem('quizAnswers')
+    const savedQuestion = localStorage.getItem('currentQuestion')
+    const quizCompleted = localStorage.getItem('quizCompleted')
+    
+    if (savedAnswers) {
+      setAnswers(JSON.parse(savedAnswers))
+    }
+    
+    if (savedQuestion) {
+      setCurrentQuestion(parseInt(savedQuestion))
+    }
+    
+    if (quizCompleted === 'true') {
+      setShowQuiz(false)
+    }
+  }, [])
+
   const redirectToCheckout = () => {
     window.location.href = CHECKOUT_URL
   }
@@ -54,14 +73,23 @@ export default function Home() {
 
   const handleAnswerChange = (value: string) => {
     const questionId = questions[currentQuestion].id as keyof typeof answers
-    setAnswers({ ...answers, [questionId]: value })
+    const updatedAnswers = { ...answers, [questionId]: value }
+    setAnswers(updatedAnswers)
+    
+    // Salvar no localStorage imediatamente
+    localStorage.setItem('quizAnswers', JSON.stringify(updatedAnswers))
   }
 
   const handleNext = () => {
     if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1)
+      const nextQuestion = currentQuestion + 1
+      setCurrentQuestion(nextQuestion)
+      // Salvar progresso da pergunta atual
+      localStorage.setItem('currentQuestion', nextQuestion.toString())
     } else {
       setShowQuiz(false)
+      // Marcar quiz como completo
+      localStorage.setItem('quizCompleted', 'true')
     }
   }
 
